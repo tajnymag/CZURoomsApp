@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$USER_HOME$/.Rider2019.2/system/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/.Rider2019.2/system/resharper-host/local/Transient/ReSharperHost/v192/SolutionCaches/_.19.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="CZURoomsApp" t="IncludeRecursive">
+        <e p="CZURoomsApp.csproj" t="IncludeRecursive" />
+        <e p="Components" t="Include" />
+        <e p="MainForm.cs" t="Include" />
+        <e p="Models" t="Include">
+          <e p="ClassRoom.cs" t="Include" />
+        </e>
+        <e p="Sections" t="Include" />
+        <e p="Services" t="Include">
+          <e p="AuthRequestContent.cs" t="Include" />
+          <e p="CZUApi.cs" t="Include" />
+          <e p="CZURequestContentFactory.cs" t="Include" />
+          <e p="RoomRequestContent.cs" t="Include" />
+        </e>
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard1.6" t="Include">
+              <e p="CZURoomsApp.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="CZURoomsApp.Gtk" t="IncludeRecursive">
+        <e p="CZURoomsApp.Gtk.csproj" t="IncludeRecursive" />
+        <e p="Program.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="CZURoomsApp.Gtk.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="CZURoomsApp.Mac" t="IncludeRecursive">
+        <e p="CZURoomsApp.Mac.csproj" t="IncludeRecursive" />
+        <e p="Info.plist" t="Include" />
+        <e p="MacIcon.icns" t="Include" />
+        <e p="Program.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="CZURoomsApp.Mac.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="CZURoomsApp.Wpf" t="IncludeRecursive">
+        <e p="CZURoomsApp.Wpf.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>

@@ -1,4 +1,6 @@
 using System;
+using CZURoomsApp.Models;
+using CZURoomsApp.Services;
 using Eto.Forms;
 using Eto.Drawing;
 
@@ -6,10 +8,23 @@ namespace CZURoomsApp
 {
 	public partial class MainForm : Form
 	{
+		async private void Test(CZUApi uis, WebView view)
+		{
+			await uis.Login();
+			var html = await uis.GetRoomPage(ClassRoom.A137, DateTime.Today, DateTime.Today.AddDays(7),
+				DayOfWeek.Wednesday);
+
+			view.LoadHtml(html);
+		}
 		public MainForm()
 		{
 			Title = "My Eto Form";
 			ClientSize = new Size(400, 350);
+			
+			var view = new WebView{Width = 400, Height = 350};
+			
+			var uis = new CZUApi("xlukm014", "NaserSiCZU5");
+			Test(uis, view);
 
 			Content = new StackLayout
 			{
@@ -17,7 +32,7 @@ namespace CZURoomsApp
 				Items =
 				{
 					"Hello World!",
-					// add more controls here
+					view
 				}
 			};
 
