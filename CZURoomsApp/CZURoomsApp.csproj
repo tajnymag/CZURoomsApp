@@ -11,11 +11,11 @@
   
   <ItemGroup>
     <PackageReference Include="Eto.Forms" Version="2.4.1" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.16" />
   </ItemGroup>
   
   <ItemGroup>
     <Folder Include="Components" />
-    <Folder Include="Sections" />
   </ItemGroup>
   
 </Project>

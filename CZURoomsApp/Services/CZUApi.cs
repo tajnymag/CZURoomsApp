@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using CZURoomsApp.Models;
+using Eto.Forms;
 
 namespace CZURoomsApp.Services
 {
@@ -42,8 +43,7 @@ namespace CZURoomsApp.Services
 
 			try
 			{
-				var response = await _httpClient.PostAsync(new Uri("https://is.czu.cz/system/login.pl"),
-					new FormUrlEncodedContent(content));
+				var response = await _httpClient.PostAsync(new Uri("https://is.czu.cz/system/login.pl"), content);
 			}
 			catch (Exception e)
 			{
@@ -58,7 +58,7 @@ namespace CZURoomsApp.Services
 			try
 			{
 				var response = await _httpClient.PostAsync(new Uri("https://is.czu.cz/auth/katalog/rozvrhy_view.pl"),
-					new FormUrlEncodedContent(content));
+					content);
 
 				return await response.Content.ReadAsStringAsync();
 			}

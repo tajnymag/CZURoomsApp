@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using CZURoomsApp.Models;
 
 namespace CZURoomsApp.Services
@@ -10,11 +13,23 @@ namespace CZURoomsApp.Services
 		{
 		}
 
-		public static IEnumerable<KeyValuePair<string, string>> GetAuth(string username, string password,
+		private static HttpContent FormUrlEncodedContent(IEnumerable<KeyValuePair<string, string>> parameters)
+		{
+			string formUrl = "";
+
+			foreach (var parameter in parameters)
+			{
+				formUrl += $"{parameter.Key}={parameter.Value}&";
+			}
+
+			return new StringContent(formUrl, Encoding.UTF8, "application/x-www-form-urlencoded");
+		}
+		
+		public static HttpContent GetAuth(string username, string password,
 			bool loginHidden = true,
 			string destination = "/auth", bool authIdHidden = false, int cookieLife = 2073600, string credentialK = "")
 		{
-			return new[]
+			var parameters = new []
 			{
 				new KeyValuePair<string, string>("login_hidden", loginHidden ? "1" : "0"),
 				new KeyValuePair<string, string>("destination", destination),
@@ -24,9 +39,11 @@ namespace CZURoomsApp.Services
 				new KeyValuePair<string, string>("credential_2", cookieLife.ToString()),
 				new KeyValuePair<string, string>("credential_k", credentialK),
 			};
+			
+			return FormUrlEncodedContent(parameters);
 		}
 
-		public static IEnumerable<KeyValuePair<string, string>> GetRoom(ClassRoom room, DayOfWeek dayOfWeek,
+		public static HttpContent GetRoom(ClassRoom room, DayOfWeek dayOfWeek,
 			DateTime from, DateTime to, int z = 1,
 			int k = 1, int timetable = 944, bool baseNotes = true, bool changes = true, bool pairing = true,
 			bool differentTeacher = true,
@@ -48,7 +65,7 @@ namespace CZURoomsApp.Services
 			string formattedFrom = $"{fromDay}.+{fromMonth}.+{from.Year}";
 			string formattedTo = $"{toDay}.+{toMonth}.+{from.Year}";
 
-			return new[]
+			var parameters = new[]
 			{
 				new KeyValuePair<string, string>("den", correctedDayOfWeek.ToString()),
 				new KeyValuePair<string, string>("z", z.ToString()),
@@ -70,6 +87,8 @@ namespace CZURoomsApp.Services
 				new KeyValuePair<string, string>("zobraz", show ? "1" : "0"),
 				new KeyValuePair<string, string>("zobraz2", show2)
 			};
+
+			return FormUrlEncodedContent(parameters);
 		}
 	}
 }
