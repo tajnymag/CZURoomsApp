@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using CZURoomsApp.Enums;
@@ -53,6 +54,18 @@ namespace CZURoomsApp.Services
             }
             
             return timetableEvent;
+        }
+
+        public List<TimetableEvent> GetTimetableEvents(HtmlNodeCollection rowElements)
+        {
+            var events = new List<TimetableEvent>();
+            
+            foreach (var rowEl in rowElements)
+            {
+                events.Add(GetTimetableEvent(rowEl));
+            }
+
+            return events;
         }
 
         private DateTime ParseDateTime(string date, string time)

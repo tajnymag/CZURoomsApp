@@ -2,6 +2,7 @@ namespace CZURoomsApp.Models
 {
 	public enum ClassRoom
 	{
+		ALL = -1,
 		AII = 205,
 		A137 = 191,
 		A233 = 196,

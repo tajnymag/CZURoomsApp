@@ -65,12 +65,11 @@ namespace CZURoomsApp.Services
 			string formattedFrom = $"{fromDay}.+{fromMonth}.+{from.Year}";
 			string formattedTo = $"{toDay}.+{toMonth}.+{from.Year}";
 
-			var parameters = new[]
+			var parameters = new List<KeyValuePair<string, string>>
 			{
 				new KeyValuePair<string, string>("den", correctedDayOfWeek.ToString()),
 				new KeyValuePair<string, string>("z", z.ToString()),
 				new KeyValuePair<string, string>("k", k.ToString()),
-				new KeyValuePair<string, string>("mistnost", ((int)room).ToString()),
 				new KeyValuePair<string, string>("rozvrh", timetable.ToString()),
 				new KeyValuePair<string, string>("poznamky", notes ? "1" : "0"),
 				new KeyValuePair<string, string>("poznamky_base", baseNotes ? "1" : "0"),
@@ -87,6 +86,11 @@ namespace CZURoomsApp.Services
 				new KeyValuePair<string, string>("zobraz", show ? "1" : "0"),
 				new KeyValuePair<string, string>("zobraz2", show2)
 			};
+
+			if (room != ClassRoom.ALL)
+			{
+				parameters.Add(new KeyValuePair<string, string>("mistnost", ((int)room).ToString()));
+			}
 
 			return FormUrlEncodedContent(parameters);
 		}

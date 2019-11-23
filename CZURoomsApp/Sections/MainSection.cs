@@ -15,7 +15,7 @@ namespace CZURoomsApp.Sections
                     new StackLayout
                     {
                         Orientation = Orientation.Horizontal,
-                        Items = {"Hello World!", new Slider()}
+                        Items = {new DateTimePicker { Mode = DateTimePickerMode.Date }, new DateTimePicker { Mode = DateTimePickerMode.Date }}
                     },
                     new StackLayoutItem(webview, expand: true)
                 }
