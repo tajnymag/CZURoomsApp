@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CZURoomsApp.Dialogs;
 using CZURoomsApp.Models;
 using CZURoomsApp.Sections;
 using CZURoomsApp.Services;
@@ -13,25 +14,43 @@ namespace CZURoomsApp
 	{
 		public MainForm()
 		{
-			Title = "My Eto Form";
+			Title = "CZU Rooms";
 			ClientSize = new Size(400, 350);
 
-			var view = new ListBox();
+			var loginDialog = new LoginDialog();
+			var credentials = loginDialog.ShowModal();
 
-			var uis = new CZUApi("xlukm014", "NaserSiCZU5");
-
-			Content = new MainSection(view);
+			if (credentials.Username == null || credentials.Password == null)
+			{
+				Application.Instance.Quit();
+			}
 			
-			Test(uis, view);
+			Shared.Uis = new CZUApi(credentials.Username, credentials.Password);
+
+			var mainSection = new MainSection(this);
+
+			Content = mainSection;
 
 			// create a few commands that can be used for the menu and toolbar
-			var clickMe = new Command {MenuText = "Click Me!", ToolBarText = "Click Me!"};
-			clickMe.Executed += (sender, e) => Test(uis, view);
+			var loadTimetable = new Command {MenuText = "Načíst rozvrh", ToolBarText = "Načíst rozvrh"};
+			loadTimetable.Executed += (sender, e) => mainSection.LoadEvents();
+			
+			var updateCredentials = new Command {MenuText = "Přehlásit se", ToolBarText = "Přehlásit se"};
+			updateCredentials.Executed += (sender, e) =>
+			{
+				var ld = new LoginDialog();
+				var cr = ld.ShowModal();
 
-			var quitCommand = new Command {MenuText = "Quit", Shortcut = Application.Instance.CommonModifier | Keys.Q};
+				if (cr.Username != null && cr.Password != null)
+				{
+					Shared.Uis.UpdateCredentials(cr.Username, cr.Password);
+				}
+			};
+
+			var quitCommand = new Command {MenuText = "Ukončit", Shortcut = Application.Instance.CommonModifier | Keys.Q};
 			quitCommand.Executed += (sender, e) => Application.Instance.Quit();
 
-			var aboutCommand = new Command {MenuText = "About..."};
+			var aboutCommand = new Command {MenuText = "O aplikaci"};
 			aboutCommand.Executed += (sender, e) => new AboutDialog().ShowDialog(this);
 
 			// create menu
@@ -40,39 +59,19 @@ namespace CZURoomsApp
 				Items =
 				{
 					// File submenu
-					new ButtonMenuItem {Text = "&File", Items = {clickMe}}
+					new ButtonMenuItem {Text = "&File", Items = {updateCredentials}}
 				},
 				ApplicationItems =
 				{
 					// application (OS X) or file menu (others)
-					new ButtonMenuItem {Text = "&Preferences..."}
+					new ButtonMenuItem {Text = "&Nastavení"}
 				},
 				QuitItem = quitCommand,
 				AboutItem = aboutCommand
 			};
 
 			// create toolbar			
-			ToolBar = new ToolBar {Items = {clickMe}};
-		}
-
-		private async void Test(CZUApi uis, ListBox view)
-		{
-			await uis.Login();
-			var html = await uis.GetRoomPage(ClassRoom.ALL, DateTime.Today, DateTime.Today.AddDays(7),
-				DayOfWeek.Wednesday);
-
-			List<TimetableEvent> timetableEvents = null;
-
-			await Task.Run(() =>
-			{
-				var parser = new CZUParser(html);
-				timetableEvents = parser.GetTimetableEvents(parser.GetAllRows());
-			});
-
-			foreach (var timetableEvent in timetableEvents)
-			{
-				view.Items.Add(new ListItem { Text = $"{timetableEvent.Room} {timetableEvent.Interval}" });
-			}
+			ToolBar = new ToolBar {Items = {updateCredentials, loadTimetable}};
 		}
 	}
 }

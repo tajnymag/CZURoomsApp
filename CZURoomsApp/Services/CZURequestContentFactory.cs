@@ -63,7 +63,7 @@ namespace CZURoomsApp.Services
 			string toMonth = to.Month.ToString().PadLeft(2);
 			
 			string formattedFrom = $"{fromDay}.+{fromMonth}.+{from.Year}";
-			string formattedTo = $"{toDay}.+{toMonth}.+{from.Year}";
+			string formattedTo = $"{toDay}.+{toMonth}.+{to.Year}";
 
 			var parameters = new List<KeyValuePair<string, string>>
 			{
@@ -87,9 +87,9 @@ namespace CZURoomsApp.Services
 				new KeyValuePair<string, string>("zobraz2", show2)
 			};
 
-			if (room != ClassRoom.ALL)
+			if (room.Id != 0)
 			{
-				parameters.Add(new KeyValuePair<string, string>("mistnost", ((int)room).ToString()));
+				parameters.Add(new KeyValuePair<string, string>("mistnost", room.Id.ToString()));
 			}
 
 			return FormUrlEncodedContent(parameters);

@@ -1,5 +1,6 @@
 using System;
 using CZURoomsApp.Enums;
+using CZURoomsApp.Models;
 
 namespace CZURoomsApp.Models
 {
@@ -7,7 +8,7 @@ namespace CZURoomsApp.Models
     {
         public TimeInterval Interval;
         public string Subject;
-        public string Room;
+        public ClassRoom Room;
         public TimetableEventType EventType;
     }
 }

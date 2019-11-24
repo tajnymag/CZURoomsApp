@@ -35,6 +35,14 @@ namespace CZURoomsApp.Models
             return this;
         }
 
+        public TimeInterval Concat(TimeInterval b)
+        {
+            var smallerFrom = (this.From < b.From) ? this.From : b.From;
+            var largerTo = (this.To > b.To) ? this.To : b.To;
+            
+            return new TimeInterval(smallerFrom, largerTo);
+        }
+        
         public override string ToString()
         {
             return $"{From.ToString()} - {To.ToString()}";
