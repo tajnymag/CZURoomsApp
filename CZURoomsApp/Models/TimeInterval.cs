@@ -16,7 +16,7 @@ namespace CZURoomsApp.Models
         
         public bool OverlapsWith(TimeInterval b)
         {
-            return (this.From <= b.To && this.To >= b.From) || (b.To <= this.From && b.From >= this.To);
+            return (this.From < b.To && this.To > b.From) || (b.To < this.From && b.From > this.To);
         }
 
         public bool TimeOverlapsWith(TimeInterval b)

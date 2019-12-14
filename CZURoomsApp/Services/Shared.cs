@@ -9,6 +9,11 @@ namespace CZURoomsApp.Services
         private static Dictionary<string, ClassRoom> _classRooms;
         public static CZUApi Uis { get; set; }
 
+        static Shared()
+        {
+            _classRooms = new Dictionary<string, ClassRoom>();
+        }
+
         public static ClassRoom GetClassRoomByName(string name)
         {
             return _classRooms[name];
@@ -21,10 +26,15 @@ namespace CZURoomsApp.Services
 
         public static void AddClassRoom(string name, ClassRoom classRoom)
         {
-            if (_classRooms.ContainsKey(name))
+            if (!_classRooms.ContainsKey(name))
             {
                 _classRooms.Add(name, classRoom);
             }
+        }
+
+        public static void ResetClassRooms()
+        {
+            _classRooms.Clear();
         }
     }
 }

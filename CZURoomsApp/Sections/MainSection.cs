@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using CZURoomsApp.Models;
 using CZURoomsApp.Services;
@@ -11,15 +12,13 @@ namespace CZURoomsApp.Sections
     public class MainSection: Panel
     {
         private ListBox _eventsBox { get; set; }
-        private DateTimePicker _fromDatePicker { get; set; }
-        private DateTimePicker _toDatePicker { get; set; }
-        
+        private DateTimePicker _whenDatePicker { get; set; }
+
         public MainSection(Form mainForm)
         {
             _eventsBox = new ListBox();
 
-            _fromDatePicker = new DateTimePicker {Mode = DateTimePickerMode.Date, Value = DateTime.Today};
-            _toDatePicker = new DateTimePicker {Mode = DateTimePickerMode.Date, Value = DateTime.Today.AddDays(7)};
+            _whenDatePicker = new DateTimePicker {Mode = DateTimePickerMode.Date, Value = DateTime.Today};
             
             Content = new StackLayout
             {
@@ -30,8 +29,9 @@ namespace CZURoomsApp.Sections
                     new StackLayout
                     {
                         Orientation = Orientation.Horizontal,
-                        Items = {_fromDatePicker, _toDatePicker}
+                        Items = {_whenDatePicker}
                     },
+                    new StackLayoutItem(new ProgressBar()),
                     new StackLayoutItem(_eventsBox, expand: true)
                 }
             };
@@ -39,8 +39,10 @@ namespace CZURoomsApp.Sections
 
         public async void LoadEvents()
         {
-            var from = _fromDatePicker.Value.GetValueOrDefault();
-            var to = _toDatePicker.Value.GetValueOrDefault();
+            var when = _whenDatePicker.Value.GetValueOrDefault();
+            var whenInterval = TimeHelpers.GetDayInterval(when.DayOfWeek, when, when.AddHours(23));
+            
+            Shared.ResetClassRooms();
 
             try
             {
@@ -48,24 +50,21 @@ namespace CZURoomsApp.Sections
 
                 List<TimetableEvent> timetableEvents = null;
                 List<ClassRoom> classRooms = null;
-
                 
-                    var html = Shared.Uis.GetRoomPage(new ClassRoom(0, "-- všechny místnosti --"), from, to, DayOfWeek.Wednesday).Result;
-                    var parser = new CZUParser(html);
-                    timetableEvents = parser.GetTimetableEvents(parser.GetAllRows());
-                
-
-                
-                    var html2 = Shared.Uis.GetEnumsPage().Result;
-                    var parser2 = new CZUParser(html);
-                    classRooms = parser.GetClassRooms();
+                var html2 = await Shared.Uis.GetEnumsPage();
+                var parser2 = new CZUParser(html2);
+                classRooms = parser2.GetClassRooms();
                 
 
                 foreach (var classRoom in classRooms)
                 {
                     Shared.AddClassRoom(classRoom.Name, classRoom);
                 }
-
+                
+                var html = await Shared.Uis.GetRoomPage(new ClassRoom(0, "-- všechny místnosti --"), whenInterval.From, whenInterval.To, when.DayOfWeek);
+                var parser = new CZUParser(html);
+                timetableEvents = parser.GetTimetableEvents(parser.GetAllRows());
+                
                 _eventsBox.Items.Clear();
                 foreach (var timetableEvent in timetableEvents)
                 {
@@ -74,7 +73,16 @@ namespace CZURoomsApp.Sections
 
                 foreach (var classRoom in classRooms)
                 {
-                    _eventsBox.Items.Add(new ListItem {Text = classRoom.GetFreeIntervals(from, to).ToString() });
+                    if (classRoom.Id == 0)
+                    {
+                        continue;
+                    }
+                    
+                    foreach (var freeInterval in classRoom.GetFreeIntervals(whenInterval.From, whenInterval.To))
+                    {
+                        string text = $"{classRoom.Name} je volná mezi {freeInterval.From.ToString()} a {freeInterval.To.ToString()}";
+                        _eventsBox.Items.Add(new ListItem {Text = text });
+                    }
                 }
             }
             catch (NoEventsFoundException e)

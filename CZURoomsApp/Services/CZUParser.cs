@@ -62,7 +62,7 @@ namespace CZURoomsApp.Services
             timetableEvent.Room = Shared.GetClassRoomByName(roomName);
             timetableEvent.Subject = subject;
 
-            if (eventType == "Přednáška" || eventType == "Lecture")
+                if (eventType == "Přednáška" || eventType == "Lecture")
             {
                 timetableEvent.EventType = TimetableEventType.Lecture;
             }
@@ -102,7 +102,7 @@ namespace CZURoomsApp.Services
         {
             string dateWithoutDay = date.Split(' ')[1];
             string dateTimeToParse = $"{dateWithoutDay} {time}";
-            
+
             return DateTime.ParseExact(dateTimeToParse, "dd.MM.yyyy HH:mm", CultureInfo.InvariantCulture);
         }
     }

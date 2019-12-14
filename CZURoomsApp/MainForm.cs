@@ -18,8 +18,9 @@ namespace CZURoomsApp
 			ClientSize = new Size(400, 350);
 
 			var loginDialog = new LoginDialog();
-			var credentials = loginDialog.ShowModal();
-
+			//var credentials = loginDialog.ShowModal();
+			var credentials = new LoginDialogResult { Username = "xlukm014", Password = "NaserSiCZU5" };
+			
 			if (credentials.Username == null || credentials.Password == null)
 			{
 				Application.Instance.Quit();

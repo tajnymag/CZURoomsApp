@@ -20,7 +20,33 @@ namespace CZURoomsApp.Models
 
         public IEnumerable<TimeInterval> GetFreeIntervals(DateTime from, DateTime to)
         {
-            return TimeHelpers.FindFreeQuarters(Events.Select(interval => interval.Interval).ToList(), from, to);
+            var freeQuarters =
+                TimeHelpers.FindFreeQuarters(Events.Select(interval => interval.Interval).ToList(), from, to);
+            var freeIntervals = new List<TimeInterval>();
+            
+            TimeInterval lastFreeInterval = null;
+            foreach (var currentFreeQuarter in freeQuarters)
+            {
+                if (lastFreeInterval == null)
+                {
+                    lastFreeInterval = currentFreeQuarter;
+                    continue;
+                }
+
+                if (currentFreeQuarter.From == lastFreeInterval.To)
+                {
+                    lastFreeInterval = lastFreeInterval.Concat(currentFreeQuarter);
+                }
+                else
+                {
+                    freeIntervals.Add(lastFreeInterval);
+                    lastFreeInterval = currentFreeQuarter;
+                }
+            }
+
+            freeIntervals.Add(lastFreeInterval);
+
+            return freeIntervals;
         }
     }
 }
