@@ -1,21 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>CZURoomsApp</RootNamespace>
-    <PackageVersion>1.0</PackageVersion>
-    <Title>CZURoomsApp</Title>
-    <Copyright>Copyright © 2019</Copyright>
-    <Description>Description of CZURoomsApp</Description>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Eto.Forms" Version="2.4.1" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.16" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Components" />
-  </ItemGroup>
-  
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <RootNamespace>CZURoomsApp</RootNamespace>
+        <PackageVersion>1.0</PackageVersion>
+        <Title>CZURoomsApp</Title>
+        <Copyright>Copyright © 2019</Copyright>
+        <Description>Description of CZURoomsApp</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Eto.Forms" Version="2.4.1" />
+        <PackageReference Include="HtmlAgilityPack" Version="1.11.16" />
+    </ItemGroup>
+
 </Project>

@@ -1,25 +1,64 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using CZURoomsApp.Models;
+using CZURoomsApp.Exceptions;
 using CZURoomsApp.Services;
 using Eto.Forms;
 
 namespace CZURoomsApp.Sections
 {
-    public class MainSection: Panel
+    /// <summary>
+    /// Obsah hlavního okna obsahující nejdůležitější
+    /// </summary>
+    public class MainSection : Panel
     {
-        private ListBox _eventsBox { get; set; }
-        private DateTimePicker _whenDatePicker { get; set; }
+        private GridView _eventsTable { get; }
+        private DateTimePicker _whenDatePicker { get; }
+        private ProgressBar _progressBar { get; }
 
-        public MainSection(Form mainForm)
+        public MainSection()
         {
-            _eventsBox = new ListBox();
-
+            // vytvoření instancí prvků
+            _eventsTable = new GridView();
             _whenDatePicker = new DateTimePicker {Mode = DateTimePickerMode.Date, Value = DateTime.Today};
-            
+            _progressBar = new ProgressBar();
+
+            // nastavení sloupce s názvem místnosti
+            var tableRoomColumn = new GridColumn
+            {
+                HeaderText = "Místnost",
+                DataCell = new TextBoxCell
+                {
+                    // napojení hodnoty buňky na správnou hodnotu z objektu volných intervalů
+                    Binding = Binding.Property<MainController.FreeIntervalItem, string>(item =>
+                        item.Room.Name.ToString())
+                }
+            };
+            // nastavení sloupce se začátkem intervalu, kdy je místnost volná
+            var tableFromColumn = new GridColumn
+            {
+                HeaderText = "Od",
+                DataCell = new TextBoxCell
+                {
+                    Binding = Binding.Property<MainController.FreeIntervalItem, string>(item =>
+                        item.From.ToString("HH:mm"))
+                }
+            };
+            // nastavení sloupce s koncem intervalu, kdy je místnost volná
+            var tableToColumn = new GridColumn
+            {
+                HeaderText = "Do",
+                DataCell = new TextBoxCell
+                {
+                    Binding = Binding.Property<MainController.FreeIntervalItem, string>(item =>
+                        item.To.ToString("HH:mm"))
+                }
+            };
+            // zaregistrování výše vytvořených sloupců do gridview
+            _eventsTable.Columns.Add(tableRoomColumn);
+            _eventsTable.Columns.Add(tableFromColumn);
+            _eventsTable.Columns.Add(tableToColumn);
+
+            // finální sestavení a přiřazení rozložení do obsahu panelu
             Content = new StackLayout
             {
                 Padding = 10,
@@ -29,79 +68,49 @@ namespace CZURoomsApp.Sections
                     new StackLayout
                     {
                         Orientation = Orientation.Horizontal,
-                        Items = {_whenDatePicker}
+                        Items = {_whenDatePicker, new StackLayoutItem(_progressBar, true)}
                     },
-                    new StackLayoutItem(new ProgressBar()),
-                    new StackLayoutItem(_eventsBox, expand: true)
+                    new StackLayoutItem(_eventsTable, true)
                 }
             };
         }
 
+        /// <summary>
+        /// Načtení seznamu volných místností a vložení jej do tabulky/gridview v tomto panelu
+        /// </summary>
         public async void LoadEvents()
         {
+            // indikace načítání
+            _progressBar.Indeterminate = true;
+            // získání aktuálně vybrané hodnoty data
             var when = _whenDatePicker.Value.GetValueOrDefault();
-            var whenInterval = TimeHelpers.GetDayInterval(when.DayOfWeek, when, when.AddHours(23));
-            
-            Shared.ResetClassRooms();
 
             try
             {
-                await Shared.Uis.Login();
+                // spouštíme načítání v odděleném Tasku, abychom nezablokovali UI
+                var items = await Task.Run(async () => await MainController.GetEvents(when));
 
-                List<TimetableEvent> timetableEvents = null;
-                List<ClassRoom> classRooms = null;
-                
-                var html2 = await Shared.Uis.GetEnumsPage();
-                var parser2 = new CZUParser(html2);
-                classRooms = parser2.GetClassRooms();
-                
-
-                foreach (var classRoom in classRooms)
-                {
-                    Shared.AddClassRoom(classRoom.Name, classRoom);
-                }
-                
-                var html = await Shared.Uis.GetRoomPage(new ClassRoom(0, "-- všechny místnosti --"), whenInterval.From, whenInterval.To, when.DayOfWeek);
-                var parser = new CZUParser(html);
-                timetableEvents = parser.GetTimetableEvents(parser.GetAllRows());
-                
-                _eventsBox.Items.Clear();
-                foreach (var timetableEvent in timetableEvents)
-                {
-                    Shared.AddEventToClassRoom(timetableEvent.Room.Name, timetableEvent);
-                }
-
-                foreach (var classRoom in classRooms)
-                {
-                    if (classRoom.Id == 0)
-                    {
-                        continue;
-                    }
-                    
-                    foreach (var freeInterval in classRoom.GetFreeIntervals(whenInterval.From, whenInterval.To))
-                    {
-                        string text = $"{classRoom.Name} je volná mezi {freeInterval.From.ToString()} a {freeInterval.To.ToString()}";
-                        _eventsBox.Items.Add(new ListItem {Text = text });
-                    }
-                }
+                // vložení získaného seznamu do tabulky/gridview
+                _eventsTable.DataStore = items;
             }
             catch (NoEventsFoundException e)
             {
                 MessageBox.Show(Application.Instance.MainForm,
                     "V daném rozsahu nebyla nalezena žádná událost v rozvrhu!");
-                return;
             }
             catch (LoginErrorException e)
             {
                 MessageBox.Show(Application.Instance.MainForm,
-                    "Nepodařilo se přihlásit. Zkontrolujte své přihlašovací údaje!");
-                return;
+                    "Nepodařilo se přihlásit. Zkontrolujte své přihlašovací údaje a připojení k internetu!");
             }
             catch (Exception e)
             {
                 MessageBox.Show(Application.Instance.MainForm, "Nepodařilo se naparsovat html z UIS!");
-                MessageBox.Show(Application.Instance.MainForm, e.Message);
-                return;
+            }
+            finally
+            {
+                // neutralizace progressbaru
+                _progressBar.Indeterminate = false;
             }
         }
     }
