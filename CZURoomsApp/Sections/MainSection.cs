@@ -111,6 +111,7 @@ namespace CZURoomsApp.Sections
             {
                 // neutralizace progressbaru
                 _progressBar.Indeterminate = false;
+                _progressBar.Value = 0;
             }
         }
     }
