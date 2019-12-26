@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Marek\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Marek\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_.19.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Marek\Documents\GitHub\CZURoomsApp" t="IncludeFlat">
+      <e p="CZURoomsApp" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="CZURoomsApp.csproj" t="IncludeRecursive" />
+        <e p="Data" t="Include">
+          <e p="ClassRoom.cs" t="Include" />
+          <e p="ClassRoomRepository.cs" t="Include" />
+          <e p="Settings.cs" t="Include" />
+          <e p="Store.cs" t="Include" />
+          <e p="TimeInterval.cs" t="Include" />
+          <e p="TimetableEvent.cs" t="Include" />
+        </e>
+        <e p="Dialogs" t="Include">
+          <e p="AboutDialog.cs" t="Include" />
+          <e p="LoginDialog.cs" t="Include" />
+          <e p="SettingsDialog.cs" t="Include" />
+        </e>
+        <e p="Enums" t="Include">
+          <e p="TimetableEventType.cs" t="Include" />
+        </e>
+        <e p="Exceptions" t="Include">
+          <e p="LoginErrorException.cs" t="Include" />
+          <e p="NoCredentialsGivenException.cs" t="Include" />
+          <e p="NoEventsFoundException.cs" t="Include" />
+          <e p="ParseErrorException.cs" t="Include" />
+        </e>
+        <e p="MainForm.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.0" t="Include">
+              <e p="CZURoomsApp.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Sections" t="Include">
+          <e p="MainSection.cs" t="Include" />
+        </e>
+        <e p="Services" t="Include">
+          <e p="CZUApi.cs" t="Include" />
+          <e p="CzuClient.cs" t="Include" />
+          <e p="CZUParser.cs" t="Include" />
+          <e p="CZURequestContentFactory.cs" t="Include" />
+          <e p="MainFormController.cs" t="Include" />
+          <e p="MainSectionController.cs" t="Include" />
+          <e p="TimeHelpers.cs" t="Include" />
+        </e>
+      </e>
+      <e p="CZURoomsApp.Gtk" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="CZURoomsApp.Gtk.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.0" t="Include">
+              <e p="CZURoomsApp.Gtk.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+      </e>
+      <e p="CZURoomsApp.Mac" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="CZURoomsApp.Mac.csproj" t="IncludeRecursive" />
+        <e p="Info.plist" t="Include" />
+        <e p="MacIcon.icns" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.0" t="Include">
+              <e p="CZURoomsApp.Mac.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+      </e>
+      <e p="CZURoomsApp.Wpf" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="CZURoomsApp.Wpf.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="net461" t="Include">
+              <e p="CZURoomsApp.Wpf.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
