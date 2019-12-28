@@ -23,7 +23,7 @@ jobs:
       with:
         dotnet-version: 3.1.100
     - name: Build with dotnet
-      run: cd CZURoomsApp.Wpf && dotnet build --configuration Release
+      run: cd CZURoomsApp.Wpf; dotnet build --configuration Release
   
   build-mac:
     runs-on: macos-latest
@@ -34,4 +34,4 @@ jobs:
       with:
         dotnet-version: 3.1.100
     - name: Build with dotnet
-      run: cd CZURoomsApp.Mac && dotnet build --configuration Release
+      run: cd CZURoomsApp.Mac && msbuild CZURoomsApp.Mac.csproj -p:Configuration=Release
