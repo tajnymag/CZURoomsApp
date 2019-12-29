@@ -33,5 +33,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.100
+    - name: Restore dependencies
+      run: nuget restore
     - name: Build with msbuild
-      run: cd CZURoomsApp.Mac && nuget restore && msbuild -p:Configuration=Release
+      run: cd CZURoomsApp.Mac && msbuild -p:Configuration=Release
