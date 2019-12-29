@@ -14,13 +14,11 @@ jobs:
         dotnet-version: 3.1.100
     - name: Build with dotnet
       run: dotnet build CZURoomsApp.Gtk --configuration Release
-    - name: Pack the result
-      run: zip --junk-paths CZURoomsApp.linux.zip CZURoomsApp.Gtk/bin/Release/*/*
     - name: Upload the result
       uses: actions/upload-artifact@v1
       with:
-        name: dist
-        path: CZURoomsApp.linux.zip
+        name: linux
+        path: CZURoomsApp.Gtk/bin/Release/*/*
       
   build-windows:
     name: Build Windows binary
@@ -33,13 +31,11 @@ jobs:
         dotnet-version: 3.1.100
     - name: Build with dotnet
       run: dotnet build CZURoomsApp.Wpf --configuration Release
-    - name: Pack the result
-      run: zip --junk-paths CZURoomsApp.win.zip CZURoomsApp.Wpf/bin/Release/*/*
     - name: Upload the result
       uses: actions/upload-artifact@v1
       with:
-        name: dist
-        path: CZURoomsApp.win.zip
+        name: windows
+        path: CZURoomsApp.Wpf/bin/Release/*/*
   
   build-mac:
     name: Build MacOS binary
@@ -54,11 +50,9 @@ jobs:
       run: dotnet restore CZURoomsApp.Mac/CZURoomsApp.Mac.csproj
     - name: Build with msbuild
       run: msbuild CZURoomsApp.Mac/CZURoomsApp.Mac.csproj -p:Configuration=Release
-    - name: Pack the result
-      run: cd CZURoomsApp.Mac/bin/Release/net461 && zip -r CZURoomsApp.mac.zip CZURoomsApp.Mac.app
     - name: Upload the result
       uses: actions/upload-artifact@v1
       with:
-        name: dist
-        path: CZURoomsApp.mac.zip
+        name: mac
+        path: CZURoomsApp.Mac/bin/Release/*/CZURoomsApp.Mac.app
         
