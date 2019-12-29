@@ -34,6 +34,6 @@ jobs:
       with:
         dotnet-version: 3.1.100
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore CZURoomsApp.Mac\CZURoomsApp.Mac.csproj
     - name: Build with msbuild
-      run: cd CZURoomsApp.Mac && msbuild -p:Configuration=Release
+      run: msbuild CZURoomsApp.Mac\CZURoomsApp.Mac.csproj -p:Configuration=Release
