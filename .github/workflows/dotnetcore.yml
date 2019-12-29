@@ -18,7 +18,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: linux
-        path: CZURoomsApp.Gtk/bin/Release/*/*
+        path: CZURoomsApp.Gtk/bin/Release/netcoreapp3.0
       
   build-windows:
     name: Build Windows binary
@@ -35,7 +35,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: windows
-        path: CZURoomsApp.Wpf/bin/Release/*/*
+        path: CZURoomsApp.Wpf/bin/Release/net461
   
   build-mac:
     name: Build MacOS binary
@@ -54,5 +54,5 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: mac
-        path: CZURoomsApp.Mac/bin/Release/*/CZURoomsApp.Mac.app
+        path: CZURoomsApp.Mac/bin/Release/net461/CZURoomsApp.Mac.app
         
