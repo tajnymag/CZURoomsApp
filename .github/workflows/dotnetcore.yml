@@ -54,5 +54,5 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: mac
-        path: CZURoomsApp.Mac/bin/Release/net461/CZURoomsApp.Mac.app
+        path: CZURoomsApp.Mac/bin/Release/net461
         
