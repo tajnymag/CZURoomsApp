@@ -4,7 +4,10 @@
 * .NET Core 3
 * GUI framework dle platformy
 
-## Instalace
+## Ke stažení
+https://github.com/Tajnymag/CZURoomsApp/releases 
+
+## Kompilace
 1. stáhněte si tenhle repozitář
 ```bash
 git clone git@github.com:Tajnymag/CZURoomsApp.git
