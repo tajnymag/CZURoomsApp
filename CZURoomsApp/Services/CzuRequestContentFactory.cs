@@ -124,7 +124,7 @@ namespace CZURoomsApp.Services
         /// </returns>
         public static HttpContent GetRoom(ClassRoom room, DayOfWeek dayOfWeek,
             DateTime from, DateTime to, int z = 1,
-            int k = 1, int timetable = 944, bool baseNotes = true, bool changes = true, bool pairing = true,
+            int k = 1, int timetable = 1000, bool baseNotes = true, bool changes = true, bool pairing = true,
             bool differentTeacher = true,
             bool differentLocation = true, bool otherChanges = true, string displayMode = "konani",
             string format = "list",
@@ -138,10 +138,10 @@ namespace CZURoomsApp.Services
             }
 
             // naformátování stringu data do UIS formátu
-            var fromDay = from.Day.ToString().PadLeft(2);
-            var fromMonth = from.Month.ToString().PadLeft(2);
-            var toDay = to.Day.ToString().PadLeft(2);
-            var toMonth = to.Month.ToString().PadLeft(2);
+            var fromDay = from.Day.ToString();
+            var fromMonth = from.Month.ToString();
+            var toDay = to.Day.ToString();
+            var toMonth = to.Month.ToString();
 
             var formattedFrom = $"{fromDay}.+{fromMonth}.+{from.Year}";
             var formattedTo = $"{toDay}.+{toMonth}.+{to.Year}";

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CZURoomsApp.Data;
 
@@ -31,7 +32,7 @@ namespace CZURoomsApp.Services
             if (!Store.ClassRoomRepository.IsLoaded())
             {
                 var classRooms = await CzuClient.FetchAvailableClassRooms();
-                
+
                 // cache může být poškozena, tak ji raději resetujeme
                 Store.ClassRoomRepository.Clear();
                 
